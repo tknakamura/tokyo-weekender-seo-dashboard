@@ -85,21 +85,27 @@ async def get_analysis_summary(db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=f"データ取得エラー: {str(e)}")
 
 @app.get("/api/analysis/performance")
-async def get_performance_analysis():
-    """パフォーマンス分析の取得"""
+async def get_performance_analysis(db: Session = Depends(get_db)):
+    """パフォーマンス分析の取得（NEONデータベースから）"""
     try:
-        analysis_file = DATA_PATH / "tokyo_weekender_analysis.json"
-        
-        if not analysis_file.exists():
-            raise HTTPException(status_code=404, detail="分析データが見つかりません")
-        
-        with open(analysis_file, 'r', encoding='utf-8') as f:
-            data = json.load(f)
-        
-        return data.get('performance_analysis', {})
+        service = DatabaseService(db)
+        performance_data = service.get_performance_analysis()
+        # Convert numpy types to ensure JSON serialization
+        converted_data = service.convert_numpy_types(performance_data)
+        return converted_data
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"データ取得エラー: {str(e)}")
+        # Fallback to JSON file if database fails
+        try:
+            analysis_file = DATA_PATH / "tokyo_weekender_analysis.json"
+            if analysis_file.exists():
+                with open(analysis_file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                return data.get('performance_analysis', {})
+        except:
+            pass
+        
+        raise HTTPException(status_code=500, detail=f"パフォーマンス分析の取得に失敗: {str(e)}")
 
 @app.get("/api/analysis/content-gaps")
 async def get_content_gaps():
@@ -176,6 +182,81 @@ async def get_keywords(
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"データ取得エラー: {str(e)}")
+
+@app.get("/api/keywords/search")
+async def search_keywords(
+    min_volume: int = 100,
+    max_position: int = 50,
+    intent: str = "",
+    limit: int = 100,
+    db: Session = Depends(get_db)
+):
+    """キーワード検索（フィルター条件付き）"""
+    try:
+        service = DatabaseService(db)
+        keywords = service.search_keywords(min_volume, max_position, intent, limit)
+        return keywords
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"キーワード検索に失敗: {str(e)}")
+
+@app.get("/api/competitors/summary")
+async def get_competitors_summary(db: Session = Depends(get_db)):
+    """競合サイトの概要取得"""
+    try:
+        service = DatabaseService(db)
+        summary = service.get_competitors_summary()
+        return summary
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"競合概要の取得に失敗: {str(e)}")
+
+@app.get("/api/competitors/{competitor_site}/keywords")
+async def get_competitor_keywords(
+    competitor_site: str,
+    min_volume: int = 100,
+    max_position: int = 50,
+    limit: int = 100,
+    db: Session = Depends(get_db)
+):
+    """特定競合サイトのキーワード取得"""
+    try:
+        service = DatabaseService(db)
+        keywords = service.get_competitor_keywords(competitor_site, min_volume, max_position, limit)
+        return keywords
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"競合キーワードの取得に失敗: {str(e)}")
+
+@app.get("/api/competitors/opportunities")
+async def get_competitor_opportunities(
+    min_volume: int = 100,
+    limit: int = 100,
+    db: Session = Depends(get_db)
+):
+    """競合機会キーワードの取得"""
+    try:
+        service = DatabaseService(db)
+        opportunities = service.get_competitor_opportunities(min_volume, limit)
+        return opportunities
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"競合機会の取得に失敗: {str(e)}")
+
+@app.get("/api/competitors/{competitor_site}/comparison")
+async def get_competitor_comparison(
+    competitor_site: str,
+    limit: int = 100,
+    db: Session = Depends(get_db)
+):
+    """競合サイトとTokyo Weekenderの詳細比較"""
+    try:
+        service = DatabaseService(db)
+        comparison = service.get_competitor_vs_tw_comparison(competitor_site, limit)
+        return comparison
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"競合比較の取得に失敗: {str(e)}")
 
 @app.get("/api/keywords/top-performing")
 async def get_top_performing_keywords(limit: int = 20, db: Session = Depends(get_db)):

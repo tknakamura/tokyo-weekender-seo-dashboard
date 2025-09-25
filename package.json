@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Tokyo Weekender Organic Growth Analysis Dashboard",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --config vite.config.ts",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },

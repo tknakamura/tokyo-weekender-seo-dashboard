@@ -8,8 +8,9 @@ from typing import Dict, List
 import sys
 import os
 
-# Add backend to path
-sys.path.append(str(Path(__file__).parent.parent.parent / "backend"))
+# Add project root to path
+project_root = Path(__file__).parent.parent.parent
+sys.path.append(str(project_root))
 
 from backend.models.database import SessionLocal, engine
 from backend.models.keyword import Keyword, Base
@@ -70,16 +71,16 @@ def migrate_data(csv_path: str):
         raise
 
 def main():
-    """メイン処理"""
-    csv_file = "data/raw/www.tokyoweekender.com-organic-keywords-sub_2025-09-26_06-05-37.csv"
+    """メイン処理 - 新しいグローバルデータを使用"""
+    csv_file = "csv/www.tokyoweekender.com-organic-keywords-sub_2025-09-26_06-49-18.csv"
     
     if not Path(csv_file).exists():
         print(f"❌ CSVファイルが見つかりません: {csv_file}")
         return
     
-    print("🚀 Tokyo Weekender データをNEONデータベースに移行開始...")
+    print("🚀 Tokyo Weekender グローバルデータをNEONデータベースに移行開始...")
     migrate_data(csv_file)
-    print("✅ 移行完了!")
+    print("✅ グローバルデータ移行完了!")
 
 if __name__ == "__main__":
     main()

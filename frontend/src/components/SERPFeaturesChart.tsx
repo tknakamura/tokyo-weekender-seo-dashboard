@@ -82,7 +82,7 @@ const SERPFeaturesChart: React.FC = () => {
   if (!chartData) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-gray-500">データを読み込み中...</div>
+        <div className="text-gray-500">Loading data...</div>
       </div>
     )
   }

@@ -29,9 +29,9 @@ const PerformanceChart: React.FC = () => {
         if (response.ok) {
           const data = await response.json()
           
-          // 順位分布データの準備
+          // Position distribution data preparation
           const positionData = data.position_distribution || {}
-          const labels = ['1-3位', '4-10位', '11-20位', '21-50位', '50位以下']
+          const labels = ['1-3', '4-10', '11-20', '21-50', '50+']
           const keywordCounts = [
             positionData.top_3?.count || 0,
             positionData.top_10?.count || 0,
@@ -51,7 +51,7 @@ const PerformanceChart: React.FC = () => {
             labels,
             datasets: [
               {
-                label: 'キーワード数',
+                label: 'Keywords',
                 data: keywordCounts,
                 backgroundColor: 'rgba(59, 130, 246, 0.8)',
                 borderColor: 'rgba(59, 130, 246, 1)',
@@ -59,7 +59,7 @@ const PerformanceChart: React.FC = () => {
                 yAxisID: 'y',
               },
               {
-                label: 'トラフィック',
+                label: 'Traffic',
                 data: trafficData,
                 backgroundColor: 'rgba(16, 185, 129, 0.8)',
                 borderColor: 'rgba(16, 185, 129, 1)',
@@ -98,7 +98,7 @@ const PerformanceChart: React.FC = () => {
         position: 'left' as const,
         title: {
           display: true,
-          text: 'キーワード数',
+          text: 'Keywords',
         },
       },
       y1: {
@@ -107,7 +107,7 @@ const PerformanceChart: React.FC = () => {
         position: 'right' as const,
         title: {
           display: true,
-          text: 'トラフィック',
+          text: 'Traffic',
         },
         grid: {
           drawOnChartArea: false,
@@ -119,7 +119,7 @@ const PerformanceChart: React.FC = () => {
   if (!chartData) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-gray-500">データを読み込み中...</div>
+        <div className="text-gray-500">Loading data...</div>
       </div>
     )
   }

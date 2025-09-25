@@ -59,16 +59,16 @@ const TopKeywordsTable: React.FC<TopKeywordsTableProps> = ({ type }) => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-32">
-        <div className="text-gray-500">データを読み込み中...</div>
-      </div>
+        <div className="flex items-center justify-center h-32">
+          <div className="text-gray-500">Loading data...</div>
+        </div>
     )
   }
 
   if (keywords.length === 0) {
     return (
       <div className="text-center py-8 text-gray-500">
-        データが見つかりませんでした
+        No data found
       </div>
     )
   }
@@ -79,22 +79,22 @@ const TopKeywordsTable: React.FC<TopKeywordsTableProps> = ({ type }) => {
         <thead className="bg-gray-50">
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              キーワード
+              Keyword
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              検索ボリューム
+              Search Volume
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              トラフィック
+              Traffic
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              順位
+              Position
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              難易度
+              Difficulty
             </th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-              ページ
+              Page
             </th>
           </tr>
         </thead>
@@ -135,7 +135,7 @@ const TopKeywordsTable: React.FC<TopKeywordsTableProps> = ({ type }) => {
                     className="text-primary-600 hover:text-primary-800 flex items-center text-sm"
                   >
                     <ExternalLink className="h-4 w-4 mr-1" />
-                    ページを見る
+                    View Page
                   </a>
                 )}
               </td>

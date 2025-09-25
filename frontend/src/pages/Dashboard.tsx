@@ -61,7 +61,7 @@ const Dashboard: React.FC = () => {
       <div className="flex items-center justify-center h-64">
         <div className="flex items-center space-x-2">
           <RefreshCw className="h-6 w-6 animate-spin text-primary-600" />
-          <span className="text-gray-600">データを読み込み中...</span>
+          <span className="text-gray-600">Loading data...</span>
         </div>
       </div>
     )
@@ -78,7 +78,7 @@ const Dashboard: React.FC = () => {
           onClick={fetchSummaryStats}
           className="mt-2 text-red-600 hover:text-red-800 text-sm font-medium"
         >
-          再試行
+          Retry
         </button>
       </div>
     )
@@ -91,7 +91,7 @@ const Dashboard: React.FC = () => {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Tokyo Weekender SEO Dashboard</h1>
           <p className="mt-1 text-gray-600">
-            Organic Growth分析とコンテンツ戦略のための包括的なダッシュボード
+            Comprehensive dashboard for Organic Growth analysis and content strategy
           </p>
         </div>
         <button
@@ -99,50 +99,50 @@ const Dashboard: React.FC = () => {
           className="btn-secondary flex items-center space-x-2"
         >
           <RefreshCw className="h-4 w-4" />
-          <span>更新</span>
+          <span>Refresh</span>
         </button>
       </div>
 
       {/* 主要メトリクス */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <MetricCard
-          title="総キーワード数"
+          title="Total Keywords"
           value={summaryStats?.total_keywords?.toLocaleString() || '0'}
           icon={Search}
           trend={null}
-          description="追跡中のキーワード数"
+          description="Number of keywords being tracked"
         />
         <MetricCard
-          title="総検索ボリューム"
+          title="Total Search Volume"
           value={summaryStats?.total_volume ? formatNumber(summaryStats.total_volume) : '0'}
           icon={TrendingUp}
           trend={null}
-          description="月間検索ボリューム合計"
+          description="Monthly search volume total"
         />
         <MetricCard
-          title="総トラフィック"
+          title="Total Traffic"
           value={summaryStats?.total_traffic ? formatNumber(summaryStats.total_traffic) : '0'}
           icon={Eye}
           trend={null}
-          description="月間オーガニックトラフィック"
+          description="Monthly organic traffic"
         />
         <MetricCard
-          title="平均順位"
+          title="Average Position"
           value={summaryStats?.avg_position ? summaryStats.avg_position.toFixed(1) : '0'}
           icon={Target}
           trend={null}
-          description="全キーワードの平均順位"
+          description="Average position of all keywords"
         />
       </div>
 
       {/* パフォーマンス分析 */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
         <div className="chart-container">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">順位分布</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Position Distribution</h3>
           <PerformanceChart />
         </div>
         <div className="chart-container">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">SERP機能の取得状況</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">SERP Features Coverage</h3>
           <SERPFeaturesChart />
         </div>
       </div>
@@ -150,10 +150,10 @@ const Dashboard: React.FC = () => {
       {/* 高パフォーマンスキーワード */}
       <div className="card">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">高パフォーマンスキーワード</h3>
+          <h3 className="text-lg font-semibold text-gray-900">High Performance Keywords</h3>
           <div className="flex items-center space-x-2 text-sm text-gray-500">
             <ArrowUpRight className="h-4 w-4 text-green-600" />
-            <span>順位1-10位でボリューム100以上のキーワード</span>
+            <span>Keywords ranking 1-10 with volume 100+</span>
           </div>
         </div>
         <TopKeywordsTable type="high-performance" />
@@ -162,10 +162,10 @@ const Dashboard: React.FC = () => {
       {/* 改善機会 */}
       <div className="card">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">改善機会キーワード</h3>
+          <h3 className="text-lg font-semibold text-gray-900">Improvement Opportunities</h3>
           <div className="flex items-center space-x-2 text-sm text-gray-500">
             <Target className="h-4 w-4 text-blue-600" />
-            <span>順位11-20位でボリューム50以上のキーワード</span>
+            <span>Keywords ranking 11-20 with volume 50+</span>
           </div>
         </div>
         <TopKeywordsTable type="improvement-opportunities" />

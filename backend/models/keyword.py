@@ -11,6 +11,7 @@ class Keyword(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     keyword = Column(String(255), nullable=False, index=True)
+    competitor_site = Column(String(100), index=True, nullable=True)  # For competitor data
     country_code = Column(String(2), nullable=False)
     location = Column(String(100))
     entities = Column(Text)

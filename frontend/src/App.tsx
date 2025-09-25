@@ -4,6 +4,7 @@ import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
 import KeywordAnalysis from './pages/KeywordAnalysis'
 import CompetitorAnalysis from './pages/CompetitorAnalysis'
+import CompetitorDetail from './pages/CompetitorDetail'
 import ContentRecommendations from './pages/ContentRecommendations'
 import Settings from './pages/Settings'
 
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={<Dashboard />} />
         <Route path="/keywords" element={<KeywordAnalysis />} />
         <Route path="/competitors" element={<CompetitorAnalysis />} />
+        <Route path="/competitors/:competitorSite" element={<CompetitorDetail />} />
         <Route path="/content" element={<ContentRecommendations />} />
         <Route path="/settings" element={<Settings />} />
       </Routes>
