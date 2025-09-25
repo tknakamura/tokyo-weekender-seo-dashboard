@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect } from 'react'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -20,7 +20,7 @@ ChartJS.register(
 )
 
 const PerformanceChart: React.FC = () => {
-  const [chartData, setChartData] = React.useState(null)
+  const [chartData, setChartData] = React.useState<any>(null)
 
   useEffect(() => {
     const fetchData = async () => {

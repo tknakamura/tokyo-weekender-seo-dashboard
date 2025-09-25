@@ -10,7 +10,7 @@ import { Doughnut } from 'react-chartjs-2'
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 const SERPFeaturesChart: React.FC = () => {
-  const [chartData, setChartData] = useState(null)
+  const [chartData, setChartData] = useState<any>(null)
 
   useEffect(() => {
     const fetchData = async () => {
