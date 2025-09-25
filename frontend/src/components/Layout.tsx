@@ -7,9 +7,11 @@ import {
   FileText, 
   Settings,
   Menu,
-  X
+  X,
+  LogOut
 } from 'lucide-react'
 import { useState } from 'react'
+import { useAuth } from '../contexts/AuthContext'
 import Footer from './Footer'
 
 interface LayoutProps {
@@ -27,6 +29,7 @@ const navigation = [
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation()
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const { logout, username } = useAuth()
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -110,8 +113,18 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <div className="flex flex-1"></div>
             <div className="flex items-center gap-x-4 lg:gap-x-6">
               <div className="text-sm text-gray-500">
+                Welcome, {username}
+              </div>
+              <div className="text-sm text-gray-500">
                 Last updated: {new Date().toLocaleDateString('en-US')}
               </div>
+              <button
+                onClick={logout}
+                className="flex items-center text-gray-600 hover:text-gray-900 transition-colors duration-200"
+                title="Sign out"
+              >
+                <LogOut className="h-5 w-5" />
+              </button>
             </div>
           </div>
         </div>
