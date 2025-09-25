@@ -12,6 +12,7 @@ export default defineConfig({
   },
   server: {
     port: 3001,
+    host: '0.0.0.0',
     proxy: {
       '/api': {
         target: 'http://localhost:8000',
@@ -22,6 +23,11 @@ export default defineConfig({
   preview: {
     port: process.env.PORT ? parseInt(process.env.PORT) : 3001,
     host: '0.0.0.0',
-    allowedHosts: ['all'],
+    allowedHosts: [
+      'tokyo-weekender-seo-dashboard.onrender.com',
+      'localhost',
+      '127.0.0.1',
+      '.onrender.com'
+    ],
   },
 })
