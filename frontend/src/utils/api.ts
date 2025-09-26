@@ -243,7 +243,8 @@ const getMockData = (endpoint: string): any => {
           tokyo_weekender_position: 5,
           tokyo_weekender_traffic: 540,
           tokyo_weekender_url: 'https://www.tokyoweekender.com/restaurants',
-          opportunity_score: 85
+          opportunity_score: 85,
+          status: 'worse'
         },
         {
           keyword: 'tokyo events',
@@ -263,7 +264,8 @@ const getMockData = (endpoint: string): any => {
           tokyo_weekender_position: 3,
           tokyo_weekender_traffic: 680,
           tokyo_weekender_url: 'https://www.tokyoweekender.com/events',
-          opportunity_score: 75
+          opportunity_score: 75,
+          status: 'worse'
         },
         {
           keyword: 'tokyo nightlife',
@@ -283,7 +285,8 @@ const getMockData = (endpoint: string): any => {
           tokyo_weekender_position: 15,
           tokyo_weekender_traffic: 195,
           tokyo_weekender_url: 'https://www.tokyoweekender.com/nightlife',
-          opportunity_score: 95
+          opportunity_score: 95,
+          status: 'worse'
         },
         {
           keyword: 'tokyo shopping',
@@ -303,7 +306,8 @@ const getMockData = (endpoint: string): any => {
           tokyo_weekender_position: 18,
           tokyo_weekender_traffic: 174,
           tokyo_weekender_url: 'https://www.tokyoweekender.com/shopping',
-          opportunity_score: 90
+          opportunity_score: 90,
+          status: 'worse'
         },
         {
           keyword: 'tokyo travel guide',
@@ -323,7 +327,8 @@ const getMockData = (endpoint: string): any => {
           tokyo_weekender_position: 8,
           tokyo_weekender_traffic: 252,
           tokyo_weekender_url: 'https://www.tokyoweekender.com/guide',
-          opportunity_score: 70
+          opportunity_score: 70,
+          status: 'worse'
         }
       ]
     default:
