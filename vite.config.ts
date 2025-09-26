@@ -4,6 +4,9 @@ import path from 'path'
 
 export default defineConfig(({ command, mode }) => {
   const isProduction = mode === 'production' || process.env.NODE_ENV === 'production'
+  const isPreview = command === 'serve' && process.env.PORT
+  
+  console.log('Vite Config - Mode:', mode, 'Command:', command, 'NODE_ENV:', process.env.NODE_ENV, 'IsProduction:', isProduction, 'IsPreview:', isPreview)
   
   return {
     plugins: [react()],
@@ -16,8 +19,8 @@ export default defineConfig(({ command, mode }) => {
     server: {
       port: 3001,
       host: '0.0.0.0',
-      // Only enable proxy in development mode
-      ...(isProduction ? {} : {
+      // Only enable proxy in development mode (not production or preview)
+      ...(isProduction || isPreview ? {} : {
         proxy: {
           '/api': {
             target: 'http://localhost:8000',
@@ -36,7 +39,7 @@ export default defineConfig(({ command, mode }) => {
         '.onrender.com'
       ],
       // Explicitly disable proxy in preview mode
-      proxy: undefined,
+      proxy: {},
     },
   }
 })
