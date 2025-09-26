@@ -11,7 +11,10 @@ export const getApiBaseUrl = (): string => {
 
 // Mock data for when backend is not available
 const getMockData = (endpoint: string): any => {
-  switch (endpoint) {
+  // Remove query parameters for matching
+  const cleanEndpoint = endpoint.split('?')[0]
+  
+  switch (cleanEndpoint) {
     case '/api/analysis/summary':
       return {
         total_keywords: 60872,
@@ -210,6 +213,7 @@ export const apiRequest = async (endpoint: string, _options?: RequestInit): Prom
   // Always use mock data for now (both dev and prod)
   console.log(`Using mock data for ${endpoint}`)
   const mockData = getMockData(endpoint)
+  console.log(`Mock data for ${endpoint}:`, mockData)
   
   // Simulate network delay for realistic behavior
   await new Promise(resolve => setTimeout(resolve, 100))
