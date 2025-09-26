@@ -3,10 +3,15 @@ services:
     name: tokyo-weekender-seo-dashboard
     env: node
     plan: free
-    buildCommand: npm install
+    buildCommand: npm ci --only=production && npm run build
     startCommand: npm run start
+    healthCheckPath: /
     envVars:
       - key: NODE_ENV
         value: production
       - key: VITE_NODE_ENV
         value: production
+      - key: NODE_OPTIONS
+        value: --max-old-space-size=4096
+      - key: NPM_CONFIG_PRODUCTION
+        value: false

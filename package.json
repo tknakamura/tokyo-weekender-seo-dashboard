@@ -9,7 +9,8 @@
     "build:static": "npm run build",
     "preview": "vite preview --mode production",
     "start": "npm run build && npx serve -s frontend/dist -l $PORT",
-    "start:static": "npm run build && npx serve -s frontend/dist -l $PORT"
+    "start:static": "npm run build && npx serve -s frontend/dist -l $PORT",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "react": "^18.2.0",
