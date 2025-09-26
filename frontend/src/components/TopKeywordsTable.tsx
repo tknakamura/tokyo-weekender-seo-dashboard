@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { ExternalLink, TrendingUp, Eye } from 'lucide-react'
+import { apiRequest } from '../utils/api'
 
 interface Keyword {
-  Keyword: string
-  Volume: number
-  'Organic traffic': number
-  'Current position': number
-  'Current URL': string
-  KD: number
+  keyword: string
+  volume: number
+  organic_traffic: number
+  current_position: number
+  current_url: string
+  keyword_difficulty: number
 }
 
 interface TopKeywordsTableProps {
@@ -26,9 +27,10 @@ const TopKeywordsTable: React.FC<TopKeywordsTableProps> = ({ type }) => {
           ? '/api/keywords/top-performing'
           : '/api/keywords/improvement-opportunities'
         
-        const response = await fetch(endpoint)
+        const response = await apiRequest(endpoint)
         if (response.ok) {
           const data = await response.json()
+          console.log(`Fetched ${type} keywords:`, data)
           setKeywords(data)
         }
       } catch (error) {
@@ -103,33 +105,33 @@ const TopKeywordsTable: React.FC<TopKeywordsTableProps> = ({ type }) => {
             <tr key={index} className="hover:bg-gray-50">
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="text-sm font-medium text-gray-900">
-                  {keyword.Keyword}
+                  {keyword.keyword}
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="flex items-center text-sm text-gray-900">
                   <TrendingUp className="h-4 w-4 text-gray-400 mr-2" />
-                  {formatNumber(keyword.Volume)}
+                  {formatNumber(keyword.volume)}
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
                 <div className="flex items-center text-sm text-gray-900">
                   <Eye className="h-4 w-4 text-gray-400 mr-2" />
-                  {formatNumber(keyword['Organic traffic'])}
+                  {formatNumber(keyword.organic_traffic)}
                 </div>
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getPositionColor(keyword['Current position'])}`}>
-                  {keyword['Current position']}
+                <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getPositionColor(keyword.current_position)}`}>
+                  {keyword.current_position}
                 </span>
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                {keyword.KD || 0}
+                {keyword.keyword_difficulty || 0}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                {keyword['Current URL'] && (
+                {keyword.current_url && (
                   <a
-                    href={keyword['Current URL']}
+                    href={keyword.current_url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-primary-600 hover:text-primary-800 flex items-center text-sm"
