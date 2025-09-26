@@ -1,10 +1,10 @@
 services:
   - type: web
     name: tokyo-weekender-seo-dashboard
-    env: static
+    env: node
     plan: free
-    buildCommand: npm install && npm run build
-    staticPublishPath: ./frontend/dist
+    buildCommand: npm install
+    startCommand: npm run start
     envVars:
       - key: NODE_ENV
         value: production
