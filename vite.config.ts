@@ -43,7 +43,7 @@ export default defineConfig(({ command, mode }) => {
       proxy: {},
     },
     build: {
-      outDir: 'dist',
+      outDir: '../dist',
       assetsDir: 'assets',
       sourcemap: false,
       minify: 'esbuild', // terserより高速でメモリ効率が良い
