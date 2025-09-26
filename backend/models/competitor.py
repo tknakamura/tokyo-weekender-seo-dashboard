@@ -41,3 +41,4 @@ class CompetitorSite(Base):
     avg_position = Column(Float, default=0.0)
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, onupdate=func.now())
+

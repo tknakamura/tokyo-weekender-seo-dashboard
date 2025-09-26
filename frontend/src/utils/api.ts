@@ -59,12 +59,28 @@ const getMockData = (endpoint: string): any => {
             total_traffic: 120000,
             avg_position: 12.8,
             total_volume: 1500000
+          },
+          {
+            site_name: 'www.timeout.com/tokyo',
+            display_name: 'Time Out Tokyo',
+            total_keywords: 15200,
+            total_traffic: 95000,
+            avg_position: 18.5,
+            total_volume: 1200000
+          },
+          {
+            site_name: 'www.lonelyplanet.com/japan/tokyo',
+            display_name: 'Lonely Planet Tokyo',
+            total_keywords: 22100,
+            total_traffic: 135000,
+            avg_position: 14.3,
+            total_volume: 1800000
           }
         ],
         summary: {
-          total_competitors: 2,
-          total_traffic: 205000,
-          total_keywords: 31400
+          total_competitors: 4,
+          total_traffic: 435000,
+          total_keywords: 68700
         }
       }
     case '/api/keywords/top-performing':

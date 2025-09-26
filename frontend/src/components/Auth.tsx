@@ -147,3 +147,4 @@ const Auth: React.FC<AuthProps> = ({ onLogin, error }) => {
 }
 
 export default Auth
+

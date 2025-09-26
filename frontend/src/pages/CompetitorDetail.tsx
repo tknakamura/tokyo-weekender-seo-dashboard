@@ -332,3 +332,4 @@ const CompetitorDetail: React.FC = () => {
 }
 
 export default CompetitorDetail
+
