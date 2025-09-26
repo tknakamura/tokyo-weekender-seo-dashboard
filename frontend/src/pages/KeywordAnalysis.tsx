@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { Search, Filter, Download, ExternalLink } from 'lucide-react'
 import { apiRequest } from '../utils/api'
 
@@ -29,7 +29,7 @@ const KeywordAnalysis: React.FC = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const handleSearch = async () => {
+  const handleSearch = useCallback(async () => {
     setLoading(true)
     setError(null)
     
@@ -55,7 +55,12 @@ const KeywordAnalysis: React.FC = () => {
     } finally {
       setLoading(false)
     }
-  }
+  }, [filters]) // filtersが変更された時のみ再実行
+
+  // ページロード時にデフォルト検索を実行
+  useEffect(() => {
+    handleSearch()
+  }, [handleSearch])
 
   const getPositionColor = (position: number) => {
     if (position <= 3) return 'text-green-600 bg-green-100'
