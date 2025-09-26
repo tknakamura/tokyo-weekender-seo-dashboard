@@ -9,6 +9,7 @@ import {
   Legend,
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
+import { apiRequest } from '../utils/api'
 
 ChartJS.register(
   CategoryScale,
@@ -25,7 +26,7 @@ const PerformanceChart: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/analysis/performance')
+        const response = await apiRequest('/api/analysis/performance')
         if (response.ok) {
           const data = await response.json()
           

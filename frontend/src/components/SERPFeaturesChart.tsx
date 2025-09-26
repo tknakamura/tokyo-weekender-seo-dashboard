@@ -6,6 +6,7 @@ import {
   Legend,
 } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
+import { apiRequest } from '../utils/api'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -15,7 +16,7 @@ const SERPFeaturesChart: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/analysis/serp-features')
+        const response = await apiRequest('/api/analysis/serp-features')
         if (response.ok) {
           const data = await response.json()
           

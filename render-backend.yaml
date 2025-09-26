@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: tokyo-weekender-seo-dashboard-backend
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHONPATH
+        value: /opt/render/project/src
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: DATABASE_URL
+        sync: false  # This will be set in Render.com dashboard
+      - key: SECRET_KEY
+        value: your-secret-key-here-change-in-production
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: false

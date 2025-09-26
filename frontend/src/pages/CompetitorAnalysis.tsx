@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Users, TrendingUp, Target, ExternalLink, BarChart3 } from 'lucide-react'
+import { apiRequest } from '../utils/api'
 
 interface Competitor {
   site_name: string
@@ -29,7 +30,7 @@ const CompetitorAnalysis: React.FC = () => {
   useEffect(() => {
     const fetchCompetitorData = async () => {
       try {
-        const response = await fetch('/api/competitors/summary')
+        const response = await apiRequest('/api/competitors/summary')
         if (!response.ok) {
           throw new Error('Failed to fetch competitor data')
         }

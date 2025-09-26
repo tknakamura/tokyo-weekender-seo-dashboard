@@ -12,6 +12,7 @@ import MetricCard from '../components/MetricCard'
 import PerformanceChart from '../components/PerformanceChart'
 import TopKeywordsTable from '../components/TopKeywordsTable'
 import SERPFeaturesChart from '../components/SERPFeaturesChart'
+import { apiRequest } from '../utils/api'
 
 interface SummaryStats {
   total_keywords: number
@@ -29,7 +30,7 @@ const Dashboard: React.FC = () => {
   const fetchSummaryStats = async () => {
     try {
       setLoading(true)
-      const response = await fetch('/api/analysis/summary')
+      const response = await apiRequest('/api/analysis/summary')
       if (!response.ok) {
         throw new Error('データの取得に失敗しました')
       }
