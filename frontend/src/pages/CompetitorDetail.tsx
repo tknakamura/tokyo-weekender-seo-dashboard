@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { ArrowLeft, TrendingUp, TrendingDown, Minus, ExternalLink, Target } from 'lucide-react'
+import { apiRequest } from '../utils/api'
 
 interface ComparisonData {
   keyword: string
@@ -34,8 +35,8 @@ const CompetitorDetail: React.FC = () => {
   const displayName = {
     "tokyocheapo.com": "Tokyo Cheapo",
     "www.japan.travel": "Japan Travel", 
-    "www.timeout.jp": "Timeout Tokyo",
-    "www.gotokyo.org": "Go Tokyo"
+    "www.timeout.com/tokyo": "Time Out Tokyo",
+    "www.lonelyplanet.com/japan/tokyo": "Lonely Planet Tokyo"
   }[competitorSite || ''] || competitorSite
 
   useEffect(() => {
@@ -44,7 +45,7 @@ const CompetitorDetail: React.FC = () => {
       
       try {
         setLoading(true)
-        const response = await fetch(`/api/competitors/${competitorSite}/comparison?limit=100`)
+        const response = await apiRequest(`/api/competitors/${competitorSite}/comparison?limit=100`)
         if (!response.ok) {
           throw new Error('Failed to fetch comparison data')
         }

@@ -220,6 +220,112 @@ const getMockData = (endpoint: string): any => {
           Local: true
         }
       ]
+    case '/api/competitors/tokyocheapo.com/comparison':
+    case '/api/competitors/www.japan.travel/comparison':
+    case '/api/competitors/www.timeout.com/tokyo/comparison':
+    case '/api/competitors/www.lonelyplanet.com/japan/tokyo/comparison':
+      return [
+        {
+          keyword: 'tokyo restaurants',
+          volume: 720,
+          competitor_position: 3,
+          competitor_traffic: 450,
+          competitor_url: 'https://tokyocheapo.com/restaurants/',
+          keyword_difficulty: 25,
+          cpc: 1.2,
+          serp_features: 'Local Pack',
+          informational: false,
+          commercial: true,
+          transactional: false,
+          navigational: false,
+          branded: false,
+          local: true,
+          tokyo_weekender_position: 5,
+          tokyo_weekender_traffic: 540,
+          tokyo_weekender_url: 'https://www.tokyoweekender.com/restaurants',
+          opportunity_score: 85
+        },
+        {
+          keyword: 'tokyo events',
+          volume: 850,
+          competitor_position: 2,
+          competitor_traffic: 680,
+          competitor_url: 'https://tokyocheapo.com/events/',
+          keyword_difficulty: 15,
+          cpc: 0.8,
+          serp_features: 'Featured Snippets',
+          informational: true,
+          commercial: false,
+          transactional: false,
+          navigational: false,
+          branded: false,
+          local: true,
+          tokyo_weekender_position: 3,
+          tokyo_weekender_traffic: 680,
+          tokyo_weekender_url: 'https://www.tokyoweekender.com/events',
+          opportunity_score: 75
+        },
+        {
+          keyword: 'tokyo nightlife',
+          volume: 650,
+          competitor_position: 1,
+          competitor_traffic: 520,
+          competitor_url: 'https://tokyocheapo.com/nightlife/',
+          keyword_difficulty: 20,
+          cpc: 1.5,
+          serp_features: 'Image Pack',
+          informational: false,
+          commercial: true,
+          transactional: false,
+          navigational: false,
+          branded: false,
+          local: true,
+          tokyo_weekender_position: 15,
+          tokyo_weekender_traffic: 195,
+          tokyo_weekender_url: 'https://www.tokyoweekender.com/nightlife',
+          opportunity_score: 95
+        },
+        {
+          keyword: 'tokyo shopping',
+          volume: 580,
+          competitor_position: 4,
+          competitor_traffic: 290,
+          competitor_url: 'https://tokyocheapo.com/shopping/',
+          keyword_difficulty: 18,
+          cpc: 1.0,
+          serp_features: 'Local Pack',
+          informational: false,
+          commercial: true,
+          transactional: true,
+          navigational: false,
+          branded: false,
+          local: true,
+          tokyo_weekender_position: 18,
+          tokyo_weekender_traffic: 174,
+          tokyo_weekender_url: 'https://www.tokyoweekender.com/shopping',
+          opportunity_score: 90
+        },
+        {
+          keyword: 'tokyo travel guide',
+          volume: 420,
+          competitor_position: 2,
+          competitor_traffic: 336,
+          competitor_url: 'https://tokyocheapo.com/travel-guide/',
+          keyword_difficulty: 12,
+          cpc: 0.6,
+          serp_features: 'Featured Snippets',
+          informational: true,
+          commercial: false,
+          transactional: false,
+          navigational: false,
+          branded: false,
+          local: true,
+          tokyo_weekender_position: 8,
+          tokyo_weekender_traffic: 252,
+          tokyo_weekender_url: 'https://www.tokyoweekender.com/guide',
+          opportunity_score: 70
+        }
+      ]
     default:
       return {}
   }
