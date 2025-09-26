@@ -53,6 +53,10 @@ export default defineConfig(({ command, mode }) => {
             vendor: ['react', 'react-dom'],
             charts: ['chart.js', 'react-chartjs-2', 'd3'],
           },
+          // Force cache busting
+          entryFileNames: 'assets/[name]-[hash].js',
+          chunkFileNames: 'assets/[name]-[hash].js',
+          assetFileNames: 'assets/[name]-[hash].[ext]',
         },
       },
       chunkSizeWarningLimit: 1000, // チャンクサイズの警告を調整
