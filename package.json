@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "build:static": "npm run build",
     "preview": "vite preview --mode production",
-    "start": "npm run build && npx serve -s frontend/dist -l $PORT",
+    "start": "npx serve -s frontend/dist -l $PORT",
     "start:static": "npm run build && npx serve -s frontend/dist -l $PORT"
   },
   "dependencies": {

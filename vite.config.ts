@@ -46,7 +46,7 @@ export default defineConfig(({ command, mode }) => {
       outDir: 'dist',
       assetsDir: 'assets',
       sourcemap: false,
-      minify: 'terser',
+      minify: 'esbuild', // terserより高速でメモリ効率が良い
       rollupOptions: {
         output: {
           manualChunks: {
@@ -55,6 +55,7 @@ export default defineConfig(({ command, mode }) => {
           },
         },
       },
+      chunkSizeWarningLimit: 1000, // チャンクサイズの警告を調整
     },
   }
 })
