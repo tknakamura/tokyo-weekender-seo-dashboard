@@ -704,3 +704,307 @@ class DatabaseService:
             
         except Exception as e:
             raise e
+    
+    def get_new_content_recommendations(self, limit: int = 8) -> List[Dict]:
+        """新規コンテンツ提案の生成"""
+        try:
+            # 高ボリューム + 中難易度 + 未ランキングまたは低ポジションのキーワードを分析
+            recommendations = self.db.execute(text("""
+                WITH competitor_keywords AS (
+                    SELECT DISTINCT keyword, volume, keyword_difficulty
+                    FROM keywords 
+                    WHERE competitor_site IS NOT NULL
+                    AND volume > 1000
+                    AND keyword_difficulty < 40
+                ),
+                tokyo_weekender_keywords AS (
+                    SELECT keyword, current_position, organic_traffic, current_url
+                    FROM keywords 
+                    WHERE competitor_site IS NULL
+                )
+                SELECT 
+                    c.keyword,
+                    c.volume,
+                    c.keyword_difficulty,
+                    COALESCE(t.current_position, 999) as current_position,
+                    COALESCE(t.organic_traffic, 0) as organic_traffic,
+                    t.current_url
+                FROM competitor_keywords c
+                LEFT JOIN tokyo_weekender_keywords t ON c.keyword = t.keyword
+                WHERE COALESCE(t.current_position, 999) > 20  -- 未ランキングまたは低ポジション
+                ORDER BY c.volume DESC, c.keyword_difficulty ASC
+                LIMIT :limit
+            """), {"limit": limit}).fetchall()
+            
+            content_recommendations = []
+            for row in recommendations:
+                # コンテンツタイプの決定
+                content_type = self._determine_content_type(row[0])
+                priority = self._calculate_priority(row[1], row[2], row[3])
+                effort = self._estimate_effort(row[2], content_type)
+                target_audience = self._determine_target_audience(row[0])
+                content_angle = self._generate_content_angle(row[0], content_type)
+                
+                content_recommendations.append({
+                    'title': self._generate_title(row[0], content_type),
+                    'keyword': row[0],
+                    'volume': int(row[1]) if row[1] else 0,
+                    'difficulty': float(row[2]) if row[2] else 0.0,
+                    'potential_traffic': int(row[1] * 0.3) if row[1] else 0,  # 推定トラフィック
+                    'content_type': content_type,
+                    'priority': priority,
+                    'estimated_effort': effort,
+                    'target_audience': target_audience,
+                    'content_angle': content_angle
+                })
+            
+            return content_recommendations
+            
+        except Exception as e:
+            print(f"New content recommendations error: {e}")
+            return []
+    
+    def get_content_improvement_recommendations(self, limit: int = 12) -> List[Dict]:
+        """既存コンテンツ改善提案の生成"""
+        try:
+            # 現在ランキングしているが改善余地のあるキーワードを分析
+            improvements = self.db.execute(text("""
+                SELECT 
+                    keyword,
+                    volume,
+                    current_position,
+                    organic_traffic,
+                    current_url,
+                    keyword_difficulty
+                FROM keywords 
+                WHERE competitor_site IS NULL
+                AND current_position BETWEEN 5 AND 20  -- 改善余地のあるポジション
+                AND volume > 500
+                AND organic_traffic > 0
+                ORDER BY volume * (1.0 / current_position) DESC
+                LIMIT :limit
+            """), {"limit": limit}).fetchall()
+            
+            improvement_recommendations = []
+            for row in improvements:
+                target_position = max(1, row[2] - 3)  # 3ポジション向上を目標
+                potential_traffic_gain = int(row[1] * 0.2) if row[1] else 0  # 推定トラフィック増加
+                improvement_type = self._determine_improvement_type(row[2], row[5])
+                priority = self._calculate_improvement_priority(row[1], row[2], row[3])
+                recommendations = self._generate_improvement_recommendations(row[0], improvement_type)
+                
+                improvement_recommendations.append({
+                    'title': self._generate_page_title(row[0]),
+                    'current_url': row[4],
+                    'keyword': row[0],
+                    'current_position': int(row[2]) if row[2] else 0,
+                    'target_position': target_position,
+                    'potential_traffic_gain': potential_traffic_gain,
+                    'improvement_type': improvement_type,
+                    'priority': priority,
+                    'recommendations': recommendations
+                })
+            
+            return improvement_recommendations
+            
+        except Exception as e:
+            print(f"Content improvement recommendations error: {e}")
+            return []
+    
+    def get_topic_cluster_recommendations(self, limit: int = 3) -> List[Dict]:
+        """トピッククラスター提案の生成"""
+        try:
+            # 関連キーワードのグループ化とクラスター分析
+            clusters = self.db.execute(text("""
+                WITH keyword_groups AS (
+                    SELECT 
+                        CASE 
+                            WHEN keyword ILIKE '%tokyo%' AND keyword ILIKE '%food%' THEN 'Tokyo Food & Dining'
+                            WHEN keyword ILIKE '%tokyo%' AND keyword ILIKE '%transport%' THEN 'Tokyo Transportation'
+                            WHEN keyword ILIKE '%tokyo%' AND keyword ILIKE '%hotel%' THEN 'Tokyo Accommodation'
+                            WHEN keyword ILIKE '%tokyo%' AND keyword ILIKE '%shopping%' THEN 'Tokyo Shopping'
+                            WHEN keyword ILIKE '%tokyo%' AND keyword ILIKE '%nightlife%' THEN 'Tokyo Nightlife'
+                            ELSE 'Other'
+                        END as cluster_name,
+                        keyword,
+                        volume,
+                        current_position,
+                        organic_traffic
+                    FROM keywords 
+                    WHERE competitor_site IS NULL
+                    AND volume > 100
+                )
+                SELECT 
+                    cluster_name,
+                    COUNT(*) as keyword_count,
+                    SUM(volume) as total_volume,
+                    AVG(current_position) as avg_position,
+                    SUM(organic_traffic) as total_traffic
+                FROM keyword_groups
+                WHERE cluster_name != 'Other'
+                GROUP BY cluster_name
+                HAVING COUNT(*) >= 5  -- 最低5つのキーワード
+                ORDER BY total_volume DESC
+                LIMIT :limit
+            """), {"limit": limit}).fetchall()
+            
+            topic_clusters = []
+            for row in clusters:
+                cluster_name = row[0]
+                supporting_keywords = self._get_supporting_keywords(cluster_name)
+                content_pieces = min(8, max(4, row[1] // 2))  # キーワード数に基づくコンテンツ数
+                potential_traffic = int(row[4] * 1.5) if row[4] else 0  # 推定トラフィック増加
+                priority = self._calculate_cluster_priority(row[2], row[3])
+                
+                topic_clusters.append({
+                    'cluster_name': cluster_name,
+                    'primary_keyword': self._get_primary_keyword(cluster_name),
+                    'supporting_keywords': supporting_keywords,
+                    'content_pieces': content_pieces,
+                    'potential_traffic': potential_traffic,
+                    'priority': priority
+                })
+            
+            return topic_clusters
+            
+        except Exception as e:
+            print(f"Topic cluster recommendations error: {e}")
+            return []
+    
+    # Helper methods for content recommendations
+    def _determine_content_type(self, keyword: str) -> str:
+        """Determine content type based on keyword"""
+        keyword_lower = keyword.lower()
+        if any(word in keyword_lower for word in ['guide', 'how to', 'tips', 'best']):
+            return 'Guide'
+        elif any(word in keyword_lower for word in ['best', 'top', 'list']):
+            return 'Listicle'
+        elif any(word in keyword_lower for word in ['review', 'comparison']):
+            return 'Review'
+        else:
+            return 'Article'
+    
+    def _calculate_priority(self, volume: int, difficulty: float, position: int) -> str:
+        """Calculate priority based on volume, difficulty, and position"""
+        if volume > 2000 and difficulty < 30 and position > 20:
+            return 'High'
+        elif volume > 1000 and difficulty < 40:
+            return 'Medium'
+        else:
+            return 'Low'
+    
+    def _estimate_effort(self, difficulty: float, content_type: str) -> str:
+        """Estimate effort based on difficulty and content type"""
+        if content_type == 'Guide' and difficulty > 30:
+            return 'High'
+        elif content_type == 'Listicle' or difficulty < 20:
+            return 'Low'
+        else:
+            return 'Medium'
+    
+    def _determine_target_audience(self, keyword: str) -> str:
+        """Determine target audience based on keyword"""
+        keyword_lower = keyword.lower()
+        if any(word in keyword_lower for word in ['tourist', 'visit', 'travel']):
+            return 'Tourists'
+        elif any(word in keyword_lower for word in ['food', 'restaurant', 'dining']):
+            return 'Food enthusiasts'
+        elif any(word in keyword_lower for word in ['nightlife', 'bar', 'club']):
+            return 'Young adults'
+        else:
+            return 'General audience'
+    
+    def _generate_content_angle(self, keyword: str, content_type: str) -> str:
+        """Generate content angle based on keyword and type"""
+        if content_type == 'Guide':
+            return f'Comprehensive guide covering all aspects of {keyword}'
+        elif content_type == 'Listicle':
+            return f'Curated list of the best {keyword} options'
+        else:
+            return f'In-depth analysis and insights about {keyword}'
+    
+    def _generate_title(self, keyword: str, content_type: str) -> str:
+        """Generate title based on keyword and content type"""
+        if content_type == 'Guide':
+            return f'Complete Guide to {keyword.title()}'
+        elif content_type == 'Listicle':
+            return f'Best {keyword.title()} in Tokyo'
+        else:
+            return f'{keyword.title()}: Everything You Need to Know'
+    
+    def _determine_improvement_type(self, position: int, difficulty: float) -> str:
+        """Determine improvement type based on position and difficulty"""
+        if position > 15:
+            return 'Content Enhancement'
+        elif difficulty > 30:
+            return 'SEO Optimization'
+        else:
+            return 'Content Expansion'
+    
+    def _calculate_improvement_priority(self, volume: int, position: int, traffic: int) -> str:
+        """Calculate improvement priority"""
+        if volume > 1000 and position > 10 and traffic < 100:
+            return 'High'
+        elif volume > 500 and position > 5:
+            return 'Medium'
+        else:
+            return 'Low'
+    
+    def _generate_improvement_recommendations(self, keyword: str, improvement_type: str) -> List[str]:
+        """Generate specific improvement recommendations"""
+        if improvement_type == 'Content Enhancement':
+            return [
+                'Add more detailed information and examples',
+                'Include high-quality images and videos',
+                'Add user reviews and testimonials',
+                'Implement interactive elements'
+            ]
+        elif improvement_type == 'SEO Optimization':
+            return [
+                'Optimize meta descriptions and titles',
+                'Add structured data markup',
+                'Improve page loading speed',
+                'Enhance internal linking structure'
+            ]
+        else:
+            return [
+                'Expand content with additional sections',
+                'Add related topic coverage',
+                'Include FAQ section',
+                'Create supporting content pieces'
+            ]
+    
+    def _generate_page_title(self, keyword: str) -> str:
+        """Generate page title from keyword"""
+        return f'{keyword.title()} - Tokyo Weekender'
+    
+    def _get_supporting_keywords(self, cluster_name: str) -> List[str]:
+        """Get supporting keywords for a cluster"""
+        cluster_keywords = {
+            'Tokyo Food & Dining': ['tokyo ramen', 'tokyo sushi', 'tokyo street food', 'tokyo izakaya', 'tokyo dessert'],
+            'Tokyo Transportation': ['tokyo metro', 'tokyo train', 'tokyo bus', 'tokyo taxi', 'tokyo airport transfer'],
+            'Tokyo Accommodation': ['tokyo ryokan', 'tokyo capsule hotel', 'tokyo budget accommodation', 'tokyo luxury hotels', 'tokyo business hotels'],
+            'Tokyo Shopping': ['tokyo shopping districts', 'tokyo department stores', 'tokyo markets', 'tokyo souvenirs', 'tokyo fashion'],
+            'Tokyo Nightlife': ['tokyo bars', 'tokyo clubs', 'tokyo izakaya', 'tokyo karaoke', 'tokyo entertainment']
+        }
+        return cluster_keywords.get(cluster_name, [])
+    
+    def _calculate_cluster_priority(self, total_volume: int, avg_position: float) -> str:
+        """Calculate cluster priority"""
+        if total_volume > 10000 and avg_position > 15:
+            return 'High'
+        elif total_volume > 5000:
+            return 'Medium'
+        else:
+            return 'Low'
+    
+    def _get_primary_keyword(self, cluster_name: str) -> str:
+        """Get primary keyword for a cluster"""
+        primary_keywords = {
+            'Tokyo Food & Dining': 'tokyo food',
+            'Tokyo Transportation': 'tokyo transportation',
+            'Tokyo Accommodation': 'tokyo hotels',
+            'Tokyo Shopping': 'tokyo shopping',
+            'Tokyo Nightlife': 'tokyo nightlife'
+        }
+        return primary_keywords.get(cluster_name, 'tokyo guide')

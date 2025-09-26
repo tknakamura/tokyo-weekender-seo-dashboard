@@ -4,7 +4,7 @@ services:
     env: node
     plan: free
     buildCommand: npm ci && npm run build
-    startCommand: npx serve -s frontend/dist -l $PORT
+    startCommand: npx serve -s dist -l $PORT
     healthCheckPath: /
     envVars:
       - key: NODE_ENV
