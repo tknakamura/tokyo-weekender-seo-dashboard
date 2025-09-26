@@ -169,6 +169,9 @@ async def get_keywords(
             if intent in df.columns:
                 df = df[df[intent] == True]
         
+        # Traffic順（降順）、Position順（昇順）でソート
+        df = df.sort_values(['Organic traffic', 'Current position'], ascending=[False, True])
+        
         # ページネーション
         total = len(df)
         df = df.iloc[offset:offset + limit]

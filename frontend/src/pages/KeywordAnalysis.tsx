@@ -19,12 +19,49 @@ interface Keyword {
   Local: boolean
 }
 
+// ソート関数
+const sortKeywords = (keywords: Keyword[], sortBy: string, sortOrder: 'asc' | 'desc'): Keyword[] => {
+  return [...keywords].sort((a, b) => {
+    let aValue: number
+    let bValue: number
+    
+    switch (sortBy) {
+      case 'traffic':
+        aValue = a['Organic traffic'] || 0
+        bValue = b['Organic traffic'] || 0
+        break
+      case 'volume':
+        aValue = a.Volume || 0
+        bValue = b.Volume || 0
+        break
+      case 'position':
+        aValue = a['Current position'] || 999
+        bValue = b['Current position'] || 999
+        break
+      case 'difficulty':
+        aValue = a.KD || 0
+        bValue = b.KD || 0
+        break
+      default:
+        return 0
+    }
+    
+    if (sortOrder === 'asc') {
+      return aValue - bValue
+    } else {
+      return bValue - aValue
+    }
+  })
+}
+
 const KeywordAnalysis: React.FC = () => {
   const [filters, setFilters] = useState({
     minVolume: 100,
     maxPosition: 50,
     intent: ''
   })
+  const [sortBy, setSortBy] = useState<'traffic' | 'volume' | 'position' | 'difficulty'>('traffic')
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   const [keywords, setKeywords] = useState<Keyword[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -48,14 +85,17 @@ const KeywordAnalysis: React.FC = () => {
       
       const data = await response.json()
       console.log('Search results:', data)
-      setKeywords(data)
+      
+      // フロントエンドでソートを適用
+      const sortedData = sortKeywords(data, sortBy, sortOrder)
+      setKeywords(sortedData)
     } catch (err) {
       setError('Failed to search keywords')
       console.error('Search error:', err)
     } finally {
       setLoading(false)
     }
-  }, [filters]) // filtersが変更された時のみ再実行
+  }, [filters, sortBy, sortOrder]) // filters, sortBy, sortOrderが変更された時のみ再実行
 
   // ページロード時にデフォルト検索を実行
   useEffect(() => {
@@ -158,6 +198,38 @@ const KeywordAnalysis: React.FC = () => {
         </div>
       </div>
 
+      {/* Sort Controls */}
+      <div className="card">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Sort Options</h3>
+        <div className="flex flex-wrap gap-4 items-center">
+          <div className="flex items-center space-x-2">
+            <label className="text-sm font-medium text-gray-700">Sort by:</label>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as 'traffic' | 'volume' | 'position' | 'difficulty')}
+              className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+            >
+              <option value="traffic">Organic Traffic</option>
+              <option value="volume">Search Volume</option>
+              <option value="position">Current Position</option>
+              <option value="difficulty">Keyword Difficulty</option>
+            </select>
+          </div>
+          
+          <div className="flex items-center space-x-2">
+            <label className="text-sm font-medium text-gray-700">Order:</label>
+            <select
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
+              className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+            >
+              <option value="desc">Descending</option>
+              <option value="asc">Ascending</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
       {/* エラー表示 */}
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
@@ -194,17 +266,57 @@ const KeywordAnalysis: React.FC = () => {
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Location
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Volume
+                  <th 
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                    onClick={() => {
+                      if (sortBy === 'volume') {
+                        setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')
+                      } else {
+                        setSortBy('volume')
+                        setSortOrder('desc')
+                      }
+                    }}
+                  >
+                    Volume {sortBy === 'volume' && (sortOrder === 'desc' ? '↓' : '↑')}
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Position
+                  <th 
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                    onClick={() => {
+                      if (sortBy === 'position') {
+                        setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')
+                      } else {
+                        setSortBy('position')
+                        setSortOrder('asc')
+                      }
+                    }}
+                  >
+                    Position {sortBy === 'position' && (sortOrder === 'desc' ? '↓' : '↑')}
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Traffic
+                  <th 
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                    onClick={() => {
+                      if (sortBy === 'traffic') {
+                        setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')
+                      } else {
+                        setSortBy('traffic')
+                        setSortOrder('desc')
+                      }
+                    }}
+                  >
+                    Traffic {sortBy === 'traffic' && (sortOrder === 'desc' ? '↓' : '↑')}
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Difficulty
+                  <th 
+                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                    onClick={() => {
+                      if (sortBy === 'difficulty') {
+                        setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')
+                      } else {
+                        setSortBy('difficulty')
+                        setSortOrder('desc')
+                      }
+                    }}
+                  >
+                    Difficulty {sortBy === 'difficulty' && (sortOrder === 'desc' ? '↓' : '↑')}
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Intent
