@@ -3,7 +3,7 @@ services:
     name: tokyo-weekender-seo-dashboard
     env: node
     plan: free
-    buildCommand: npm ci --only=production && npm run build
+    buildCommand: npm ci && npm run build
     startCommand: npm run start
     healthCheckPath: /
     envVars:
