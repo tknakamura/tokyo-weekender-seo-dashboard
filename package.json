@@ -2,6 +2,7 @@
   "name": "tokyo-weekender-seo-dashboard",
   "version": "1.0.0",
   "description": "Tokyo Weekender Organic Growth Analysis Dashboard",
+  "type": "module",
   "scripts": {
     "dev": "vite --config vite.config.ts",
     "build": "tsc && vite build",

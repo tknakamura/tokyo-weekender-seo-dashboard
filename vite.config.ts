@@ -29,5 +29,7 @@ export default defineConfig({
       '127.0.0.1',
       '.onrender.com'
     ],
+    // Disable proxy in preview mode (production)
+    proxy: {},
   },
 })
