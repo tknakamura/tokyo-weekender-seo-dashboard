@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { ExternalLink, TrendingUp, Eye } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { apiRequest } from '../utils/api'
 
 interface Keyword {
@@ -18,6 +19,7 @@ interface TopKeywordsTableProps {
 const TopKeywordsTable: React.FC<TopKeywordsTableProps> = ({ type }) => {
   const [keywords, setKeywords] = useState<Keyword[]>([])
   const [loading, setLoading] = useState(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchKeywords = async () => {
@@ -129,17 +131,13 @@ const TopKeywordsTable: React.FC<TopKeywordsTableProps> = ({ type }) => {
                 {keyword.keyword_difficulty || 0}
               </td>
               <td className="px-6 py-4 whitespace-nowrap">
-                {keyword.current_url && (
-                  <a
-                    href={keyword.current_url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-primary-600 hover:text-primary-800 flex items-center text-sm"
-                  >
-                    <ExternalLink className="h-4 w-4 mr-1" />
-                    View Page
-                  </a>
-                )}
+                <button
+                  onClick={() => navigate('/keywords')}
+                  className="text-primary-600 hover:text-primary-800 flex items-center text-sm"
+                >
+                  <ExternalLink className="h-4 w-4 mr-1" />
+                  View Page
+                </button>
               </td>
             </tr>
           ))}
