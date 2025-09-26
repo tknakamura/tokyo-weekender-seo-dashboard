@@ -118,6 +118,89 @@ const getMockData = (endpoint: string): any => {
           current_url: 'https://www.tokyoweekender.com/travel-guide'
         }
       ]
+    case '/api/keywords/search':
+      return [
+        {
+          Keyword: 'tokyo weekender',
+          'Country code': 'JP',
+          Location: 'Japan',
+          Volume: 1400,
+          'Current position': 1,
+          'Organic traffic': 1241,
+          KD: 2,
+          'Current URL': 'https://www.tokyoweekender.com/',
+          Informational: true,
+          Commercial: false,
+          Transactional: false,
+          Navigational: true,
+          Branded: true,
+          Local: true
+        },
+        {
+          Keyword: 'tokyo events',
+          'Country code': 'JP',
+          Location: 'Japan',
+          Volume: 850,
+          'Current position': 3,
+          'Organic traffic': 680,
+          KD: 15,
+          'Current URL': 'https://www.tokyoweekender.com/events',
+          Informational: true,
+          Commercial: false,
+          Transactional: false,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        },
+        {
+          Keyword: 'tokyo restaurants',
+          'Country code': 'JP',
+          Location: 'Japan',
+          Volume: 720,
+          'Current position': 5,
+          'Organic traffic': 540,
+          KD: 25,
+          'Current URL': 'https://www.tokyoweekender.com/restaurants',
+          Informational: true,
+          Commercial: true,
+          Transactional: false,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        },
+        {
+          Keyword: 'tokyo nightlife',
+          'Country code': 'JP',
+          Location: 'Japan',
+          Volume: 650,
+          'Current position': 15,
+          'Organic traffic': 195,
+          KD: 20,
+          'Current URL': 'https://www.tokyoweekender.com/nightlife',
+          Informational: true,
+          Commercial: true,
+          Transactional: false,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        },
+        {
+          Keyword: 'tokyo shopping',
+          'Country code': 'JP',
+          Location: 'Japan',
+          Volume: 580,
+          'Current position': 18,
+          'Organic traffic': 174,
+          KD: 22,
+          'Current URL': 'https://www.tokyoweekender.com/shopping',
+          Informational: true,
+          Commercial: true,
+          Transactional: true,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        }
+      ]
     default:
       return {}
   }

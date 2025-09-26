@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Search, Filter, Download, ExternalLink } from 'lucide-react'
+import { apiRequest } from '../utils/api'
 
 interface Keyword {
   Keyword: string
@@ -40,12 +41,13 @@ const KeywordAnalysis: React.FC = () => {
         limit: '100'
       })
       
-      const response = await fetch(`/api/keywords/search?${params}`)
+      const response = await apiRequest(`/api/keywords/search?${params}`)
       if (!response.ok) {
         throw new Error('Search failed')
       }
       
       const data = await response.json()
+      console.log('Search results:', data)
       setKeywords(data)
     } catch (err) {
       setError('Failed to search keywords')
