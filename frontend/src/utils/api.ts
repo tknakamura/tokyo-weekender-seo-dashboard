@@ -331,6 +331,159 @@ const getMockData = (endpoint: string): any => {
           status: 'worse'
         }
       ]
+    case '/api/content/recommendations':
+      return {
+        summary: {
+          new_content_proposals: 8,
+          improvement_proposals: 12,
+          potential_traffic: 45000,
+          priority: 'High'
+        },
+        new_content: [
+          {
+            title: 'Tokyo Cherry Blossom Viewing Spots 2024',
+            keyword: 'tokyo cherry blossom spots',
+            volume: 3200,
+            difficulty: 15,
+            potential_traffic: 8500,
+            content_type: 'Guide',
+            priority: 'High',
+            estimated_effort: 'Medium',
+            target_audience: 'Tourists',
+            content_angle: 'Seasonal guide with best viewing times and locations'
+          },
+          {
+            title: 'Best Tokyo Ramen Shops by District',
+            keyword: 'best tokyo ramen shops',
+            volume: 2800,
+            difficulty: 22,
+            potential_traffic: 7200,
+            content_type: 'Listicle',
+            priority: 'High',
+            estimated_effort: 'High',
+            target_audience: 'Food enthusiasts',
+            content_angle: 'Comprehensive district-by-district ramen guide'
+          },
+          {
+            title: 'Tokyo Day Trip Destinations from Central Tokyo',
+            keyword: 'tokyo day trips',
+            volume: 2100,
+            difficulty: 18,
+            potential_traffic: 5600,
+            content_type: 'Guide',
+            priority: 'Medium',
+            estimated_effort: 'Medium',
+            target_audience: 'Tourists',
+            content_angle: 'Accessible day trip options with transport details'
+          },
+          {
+            title: 'Tokyo Nightlife Districts Complete Guide',
+            keyword: 'tokyo nightlife districts',
+            volume: 1800,
+            difficulty: 25,
+            potential_traffic: 4800,
+            content_type: 'Guide',
+            priority: 'Medium',
+            estimated_effort: 'High',
+            target_audience: 'Young adults',
+            content_angle: 'Comprehensive nightlife area comparison'
+          }
+        ],
+        improvements: [
+          {
+            title: 'Tokyo Events Calendar',
+            current_url: 'https://www.tokyoweekender.com/events',
+            keyword: 'tokyo events',
+            current_position: 3,
+            target_position: 1,
+            potential_traffic_gain: 1200,
+            improvement_type: 'Content Enhancement',
+            priority: 'High',
+            recommendations: [
+              'Add more detailed event descriptions',
+              'Include event photos and videos',
+              'Add user reviews and ratings',
+              'Implement event filtering by category'
+            ]
+          },
+          {
+            title: 'Tokyo Restaurants Guide',
+            current_url: 'https://www.tokyoweekender.com/restaurants',
+            keyword: 'tokyo restaurants',
+            current_position: 5,
+            target_position: 2,
+            potential_traffic_gain: 800,
+            improvement_type: 'SEO Optimization',
+            priority: 'High',
+            recommendations: [
+              'Optimize meta descriptions',
+              'Add structured data markup',
+              'Improve page loading speed',
+              'Add more restaurant photos'
+            ]
+          },
+          {
+            title: 'Tokyo Shopping Areas',
+            current_url: 'https://www.tokyoweekender.com/shopping',
+            keyword: 'tokyo shopping',
+            current_position: 18,
+            target_position: 8,
+            potential_traffic_gain: 1500,
+            improvement_type: 'Content Expansion',
+            priority: 'Medium',
+            recommendations: [
+              'Add shopping district maps',
+              'Include store opening hours',
+              'Add price range information',
+              'Create shopping itinerary suggestions'
+            ]
+          }
+        ],
+        topic_clusters: [
+          {
+            cluster_name: 'Tokyo Food & Dining',
+            primary_keyword: 'tokyo food',
+            supporting_keywords: [
+              'tokyo ramen',
+              'tokyo sushi',
+              'tokyo street food',
+              'tokyo izakaya',
+              'tokyo dessert'
+            ],
+            content_pieces: 6,
+            potential_traffic: 25000,
+            priority: 'High'
+          },
+          {
+            cluster_name: 'Tokyo Transportation',
+            primary_keyword: 'tokyo transportation',
+            supporting_keywords: [
+              'tokyo metro',
+              'tokyo train',
+              'tokyo bus',
+              'tokyo taxi',
+              'tokyo airport transfer'
+            ],
+            content_pieces: 5,
+            potential_traffic: 18000,
+            priority: 'Medium'
+          },
+          {
+            cluster_name: 'Tokyo Accommodation',
+            primary_keyword: 'tokyo hotels',
+            supporting_keywords: [
+              'tokyo ryokan',
+              'tokyo capsule hotel',
+              'tokyo budget accommodation',
+              'tokyo luxury hotels',
+              'tokyo business hotels'
+            ],
+            content_pieces: 4,
+            potential_traffic: 22000,
+            priority: 'High'
+          }
+        ]
+      }
     default:
       return {}
   }
