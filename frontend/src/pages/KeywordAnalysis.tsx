@@ -157,9 +157,15 @@ const KeywordAnalysis: React.FC = () => {
 
   // ページロード時にデフォルト検索と国リスト取得を実行
   useEffect(() => {
+    console.log('KeywordAnalysis component mounted, showFilters:', showFilters)
     fetchLocations()
     handleSearch()
   }, [fetchLocations, handleSearch])
+
+  // showFiltersの変更を監視
+  useEffect(() => {
+    console.log('showFilters changed to:', showFilters)
+  }, [showFilters])
 
   const getPositionColor = (position: number) => {
     if (position <= 3) return 'text-green-600 bg-green-100'
@@ -179,11 +185,24 @@ const KeywordAnalysis: React.FC = () => {
         </div>
         <div className="flex space-x-3">
           <button 
-            onClick={() => setShowFilters(!showFilters)}
+            onClick={() => {
+              console.log('Filter button clicked! Current showFilters:', showFilters)
+              setShowFilters(!showFilters)
+            }}
             className="btn-secondary flex items-center space-x-2"
+            style={{ cursor: 'pointer' }}
           >
             <Filter className="h-4 w-4" />
             <span>Filter</span>
+          </button>
+          <button 
+            onClick={() => {
+              console.log('Test button clicked!')
+              alert('Test button works!')
+            }}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+          >
+            Test
           </button>
           <button className="btn-secondary flex items-center space-x-2">
             <Download className="h-4 w-4" />
@@ -195,7 +214,10 @@ const KeywordAnalysis: React.FC = () => {
       {/* フィルターセクション */}
       {showFilters && (
         <div className="card">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Filter Conditions</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Filter Conditions 
+            <span className="text-sm text-gray-500 ml-2">(showFilters: {showFilters.toString()})</span>
+          </h3>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
