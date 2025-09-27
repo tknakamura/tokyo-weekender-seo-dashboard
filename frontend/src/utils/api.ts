@@ -783,28 +783,8 @@ const getMockData = (endpoint: string): any => {
 }
 
 export const apiRequest = async (endpoint: string, _options?: RequestInit): Promise<Response> => {
-  // Use real API for content recommendations and keyword endpoints, mock data for others
-  if (endpoint === '/api/content/recommendations' || 
-      endpoint.startsWith('/api/keywords/')) {
-    try {
-      const baseUrl = getApiBaseUrl()
-      const response = await fetch(`${baseUrl}${endpoint}`)
-      
-      if (response.ok) {
-        console.log(`Using real API for ${endpoint}`)
-        return response
-      } else {
-        console.log(`API failed for ${endpoint}, falling back to mock data`)
-        throw new Error('API request failed')
-      }
-    } catch (error) {
-      console.log(`API error for ${endpoint}, using mock data:`, error)
-      // Fall back to mock data
-    }
-  }
-  
-  // Use mock data for other endpoints
-  console.log(`Using mock data for ${endpoint}`)
+  // Temporarily use mock data for all endpoints until backend is fixed
+  console.log(`Using mock data for ${endpoint} (backend temporarily disabled)`)
   const mockData = getMockData(endpoint)
   console.log(`Mock data for ${endpoint}:`, mockData)
   
