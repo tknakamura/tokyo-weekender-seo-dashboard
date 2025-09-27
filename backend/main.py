@@ -191,17 +191,29 @@ async def search_keywords(
     min_volume: int = 100,
     max_position: int = 50,
     intent: str = "",
+    location: str = "",
     limit: int = 100,
     db: Session = Depends(get_db)
 ):
     """キーワード検索（フィルター条件付き）"""
     try:
         service = DatabaseService(db)
-        keywords = service.search_keywords(min_volume, max_position, intent, limit)
+        keywords = service.search_keywords(min_volume, max_position, intent, location, limit)
         return keywords
     
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"キーワード検索に失敗: {str(e)}")
+
+@app.get("/api/keywords/locations")
+async def get_available_locations(db: Session = Depends(get_db)):
+    """利用可能な国・地域リストの取得"""
+    try:
+        service = DatabaseService(db)
+        locations = service.get_available_locations()
+        return locations
+    
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"国・地域リストの取得に失敗: {str(e)}")
 
 @app.get("/api/competitors/summary")
 async def get_competitors_summary(db: Session = Depends(get_db)):

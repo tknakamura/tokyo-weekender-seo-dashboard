@@ -175,7 +175,7 @@ class DatabaseService:
                 'serp_features': {}
             }
     
-    def search_keywords(self, min_volume: int = 100, max_position: int = 50, intent: str = "", limit: int = 100) -> List[Dict]:
+    def search_keywords(self, min_volume: int = 100, max_position: int = 50, intent: str = "", location: str = "", limit: int = 100) -> List[Dict]:
         """Search keywords with filters"""
         try:
             # Build query
@@ -200,6 +200,9 @@ class DatabaseService:
                 }
                 if intent in intent_map:
                     query = query.filter(intent_map[intent] == True)
+            
+            if location:
+                query = query.filter(Keyword.location == location)
             
             # Order by traffic and position
             query = query.order_by(Keyword.organic_traffic.desc(), Keyword.current_position.asc())
@@ -237,6 +240,33 @@ class DatabaseService:
             
         except Exception as e:
             print(f"Keyword search error: {e}")
+            return []
+    
+    def get_available_locations(self) -> List[Dict]:
+        """Get list of available countries/regions with keyword counts"""
+        try:
+            from sqlalchemy import func
+            
+            # Get location counts
+            location_counts = self.db.query(
+                Keyword.location,
+                func.count(Keyword.id).label('keyword_count'),
+                func.sum(Keyword.organic_traffic).label('total_traffic')
+            ).group_by(Keyword.location).order_by(func.count(Keyword.id).desc()).all()
+            
+            locations = []
+            for location, count, traffic in location_counts:
+                if location:  # Skip empty locations
+                    locations.append({
+                        'location': location,
+                        'keyword_count': count,
+                        'total_traffic': int(traffic) if traffic else 0
+                    })
+            
+            return locations
+            
+        except Exception as e:
+            print(f"Get locations error: {e}")
             return []
     
     def get_competitors_summary(self) -> Dict:
