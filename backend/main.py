@@ -24,7 +24,11 @@ app = FastAPI(
 # CORS設定
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:3000", 
+        "http://localhost:5173",
+        "https://tokyo-weekender-seo-dashboard.onrender.com"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
