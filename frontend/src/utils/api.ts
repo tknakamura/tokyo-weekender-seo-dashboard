@@ -137,6 +137,59 @@ const getMockData = (endpoint: string): any => {
           current_url: 'https://www.tokyoweekender.com/travel-guide'
         }
       ]
+    case '/api/keywords/locations':
+      return [
+        {
+          location: 'United States',
+          keyword_count: 22387,
+          total_traffic: 26958
+        },
+        {
+          location: 'Australia',
+          keyword_count: 4970,
+          total_traffic: 4412
+        },
+        {
+          location: 'Canada',
+          keyword_count: 3870,
+          total_traffic: 2515
+        },
+        {
+          location: 'United Kingdom',
+          keyword_count: 2939,
+          total_traffic: 2971
+        },
+        {
+          location: 'Philippines',
+          keyword_count: 2779,
+          total_traffic: 2539
+        },
+        {
+          location: 'Japan',
+          keyword_count: 2672,
+          total_traffic: 8352
+        },
+        {
+          location: 'India',
+          keyword_count: 2021,
+          total_traffic: 1756
+        },
+        {
+          location: 'Singapore',
+          keyword_count: 1709,
+          total_traffic: 1711
+        },
+        {
+          location: 'Indonesia',
+          keyword_count: 1406,
+          total_traffic: 964
+        },
+        {
+          location: 'Malaysia',
+          keyword_count: 1165,
+          total_traffic: 975
+        }
+      ]
     case '/api/keywords/search':
       return [
         {
@@ -730,8 +783,9 @@ const getMockData = (endpoint: string): any => {
 }
 
 export const apiRequest = async (endpoint: string, _options?: RequestInit): Promise<Response> => {
-  // Use real API for content recommendations, mock data for others
-  if (endpoint === '/api/content/recommendations') {
+  // Use real API for content recommendations and keyword endpoints, mock data for others
+  if (endpoint === '/api/content/recommendations' || 
+      endpoint.startsWith('/api/keywords/')) {
     try {
       const baseUrl = getApiBaseUrl()
       const response = await fetch(`${baseUrl}${endpoint}`)

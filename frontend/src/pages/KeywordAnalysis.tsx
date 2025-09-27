@@ -54,15 +54,23 @@ const sortKeywords = (keywords: Keyword[], sortBy: string, sortOrder: 'asc' | 'd
   })
 }
 
+interface Location {
+  location: string
+  keyword_count: number
+  total_traffic: number
+}
+
 const KeywordAnalysis: React.FC = () => {
   const [filters, setFilters] = useState({
     minVolume: 100,
     maxPosition: 50,
-    intent: ''
+    intent: '',
+    location: ''
   })
   const [sortBy, setSortBy] = useState<'traffic' | 'volume' | 'position' | 'difficulty'>('traffic')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   const [keywords, setKeywords] = useState<Keyword[]>([])
+  const [locations, setLocations] = useState<Location[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -75,6 +83,7 @@ const KeywordAnalysis: React.FC = () => {
         min_volume: filters.minVolume.toString(),
         max_position: filters.maxPosition.toString(),
         intent: filters.intent,
+        location: filters.location,
         limit: '100'
       })
       
@@ -97,10 +106,24 @@ const KeywordAnalysis: React.FC = () => {
     }
   }, [filters, sortBy, sortOrder]) // filters, sortBy, sortOrderが変更された時のみ再実行
 
-  // ページロード時にデフォルト検索を実行
+  // 利用可能な国リストを取得
+  const fetchLocations = useCallback(async () => {
+    try {
+      const response = await apiRequest('/api/keywords/locations')
+      if (response.ok) {
+        const data = await response.json()
+        setLocations(data)
+      }
+    } catch (err) {
+      console.error('Failed to fetch locations:', err)
+    }
+  }, [])
+
+  // ページロード時にデフォルト検索と国リスト取得を実行
   useEffect(() => {
+    fetchLocations()
     handleSearch()
-  }, [handleSearch])
+  }, [fetchLocations, handleSearch])
 
   const getPositionColor = (position: number) => {
     if (position <= 3) return 'text-green-600 bg-green-100'
@@ -133,7 +156,7 @@ const KeywordAnalysis: React.FC = () => {
       {/* フィルターセクション */}
       <div className="card">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Filter Conditions</h3>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Minimum Search Volume
@@ -174,6 +197,23 @@ const KeywordAnalysis: React.FC = () => {
               <option value="Navigational">Navigational</option>
               <option value="Branded">Branded</option>
               <option value="Local">Local</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Country/Region
+            </label>
+            <select 
+              value={filters.location}
+              onChange={(e) => setFilters({...filters, location: e.target.value})}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+            >
+              <option value="">All Countries</option>
+              {locations.map((loc) => (
+                <option key={loc.location} value={loc.location}>
+                  {loc.location} ({loc.keyword_count.toLocaleString()} keywords)
+                </option>
+              ))}
             </select>
           </div>
           <div className="flex items-end">
