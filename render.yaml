@@ -15,3 +15,5 @@ services:
         value: --max-old-space-size=4096
       - key: NPM_CONFIG_PRODUCTION
         value: false
+      - key: RENDER_API_TOKEN
+        sync: false  # This will be set in Render.com dashboard

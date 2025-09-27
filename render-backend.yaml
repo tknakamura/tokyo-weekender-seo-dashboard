@@ -4,10 +4,10 @@ services:
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHONPATH
-        value: /opt/render/project/src:/opt/render/project/src/backend
+        value: /opt/render/project/src
       - key: PYTHONUNBUFFERED
         value: 1
       - key: DATABASE_URL
@@ -18,4 +18,6 @@ services:
         value: production
       - key: DEBUG
         value: false
+      - key: RENDER_API_TOKEN
+        sync: false  # This will be set in Render.com dashboard
 

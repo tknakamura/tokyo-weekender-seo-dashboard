@@ -65,7 +65,16 @@ async def root():
 @app.get("/api/health")
 async def health_check():
     """ヘルスチェック"""
-    return {"status": "healthy"}
+    return {"status": "healthy", "message": "Tokyo Weekender Backend is running"}
+
+@app.get("/api/test")
+async def test_endpoint():
+    """テストエンドポイント"""
+    return {
+        "message": "Backend is working!",
+        "timestamp": "2025-09-27T01:43:00Z",
+        "version": "1.0.0"
+    }
 
 @app.get("/api/analysis/summary")
 async def get_analysis_summary(db: Session = Depends(get_db)):
@@ -206,7 +215,37 @@ async def search_keywords(
         return keywords
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"キーワード検索に失敗: {str(e)}")
+        # Fallback to CSV data if database fails
+        try:
+            csv_file = RAW_DATA_PATH / "www.tokyoweekender.com-organic-keywords-sub_2025-09-26_06-49-18.csv"
+            
+            if not csv_file.exists():
+                raise HTTPException(status_code=404, detail="キーワードデータが見つかりません")
+            
+            df = pd.read_csv(csv_file)
+            
+            # Apply filters
+            if min_volume > 0:
+                df = df[df['Volume'] >= min_volume]
+            
+            if max_position > 0:
+                df = df[df['Current position'] <= max_position]
+            
+            if intent:
+                if intent in df.columns:
+                    df = df[df[intent] == True]
+            
+            if location:
+                df = df[df['Location'] == location]
+            
+            # Sort and limit
+            df = df.sort_values(['Organic traffic', 'Current position'], ascending=[False, True])
+            df = df.head(limit)
+            
+            return df.to_dict('records')
+            
+        except Exception as csv_error:
+            raise HTTPException(status_code=500, detail=f"キーワード検索に失敗: {str(e)}. CSV fallback also failed: {str(csv_error)}")
 
 @app.get("/api/keywords/locations")
 async def get_available_locations(db: Session = Depends(get_db)):
@@ -217,7 +256,32 @@ async def get_available_locations(db: Session = Depends(get_db)):
         return locations
     
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"国・地域リストの取得に失敗: {str(e)}")
+        # Fallback to CSV data if database fails
+        try:
+            csv_file = RAW_DATA_PATH / "www.tokyoweekender.com-organic-keywords-sub_2025-09-26_06-49-18.csv"
+            
+            if not csv_file.exists():
+                raise HTTPException(status_code=404, detail="キーワードデータが見つかりません")
+            
+            df = pd.read_csv(csv_file)
+            
+            # Get unique locations with counts
+            location_counts = df['Location'].value_counts().head(10)
+            locations = []
+            
+            for location, count in location_counts.items():
+                if pd.notna(location) and location != '':
+                    total_traffic = df[df['Location'] == location]['Organic traffic'].sum()
+                    locations.append({
+                        'location': location,
+                        'keyword_count': int(count),
+                        'total_traffic': int(total_traffic) if pd.notna(total_traffic) else 0
+                    })
+            
+            return locations
+            
+        except Exception as csv_error:
+            raise HTTPException(status_code=500, detail=f"国・地域リストの取得に失敗: {str(e)}. CSV fallback also failed: {str(csv_error)}")
 
 @app.get("/api/competitors/summary")
 async def get_competitors_summary(db: Session = Depends(get_db)):
