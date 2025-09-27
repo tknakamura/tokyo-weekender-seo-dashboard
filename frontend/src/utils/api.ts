@@ -195,7 +195,7 @@ const getMockData = (endpoint: string): any => {
         {
           Keyword: 'tokyo',
           'Country code': 'US',
-          Location: 'Japan',
+          Location: 'United States',
           Volume: 252000,
           'Current position': 7,
           'Organic traffic': 558,
@@ -209,14 +209,14 @@ const getMockData = (endpoint: string): any => {
           Local: true
         },
         {
-          Keyword: 'osaka',
-          'Country code': 'AU',
-          Location: 'Japan',
-          Volume: 43000,
-          'Current position': 8,
-          'Organic traffic': 2,
-          KD: 67.0,
-          'Current URL': 'https://www.tokyoweekender.com/japan-life/news-and-opinion/tourist-filmed-doing-pull-ups-at-sacred-shrine-in-osaka/',
+          Keyword: 'tokyo travel guide',
+          'Country code': 'US',
+          Location: 'United States',
+          Volume: 8500,
+          'Current position': 3,
+          'Organic traffic': 680,
+          KD: 15,
+          'Current URL': 'https://www.tokyoweekender.com/travel-guide/',
           Informational: true,
           Commercial: false,
           Transactional: false,
@@ -225,94 +225,62 @@ const getMockData = (endpoint: string): any => {
           Local: true
         },
         {
-          Keyword: 'osaka',
-          'Country code': 'CA',
-          Location: 'Japan',
-          Volume: 35000,
+          Keyword: 'tokyo restaurants',
+          'Country code': 'US',
+          Location: 'United States',
+          Volume: 7200,
           'Current position': 5,
-          'Organic traffic': 327,
-          KD: 72.0,
-          'Current URL': 'https://www.tokyoweekender.com/japan-life/news-and-opinion/tourist-filmed-doing-pull-ups-at-sacred-shrine-in-osaka/',
-          Informational: true,
-          Commercial: false,
-          Transactional: false,
-          Navigational: false,
-          Branded: false,
-          Local: true
-        },
-        {
-          Keyword: 'junko furuta',
-          'Country code': 'IN',
-          Location: 'Japan',
-          Volume: 20000,
-          'Current position': 32,
-          'Organic traffic': 0,
-          KD: 0.0,
-          'Current URL': 'https://www.tokyoweekender.com/japan-life/news-and-opinion/junko-furuta-murder-case-justice-revisited/',
-          Informational: true,
-          Commercial: false,
-          Transactional: false,
-          Navigational: false,
-          Branded: false,
-          Local: false
-        },
-        {
-          Keyword: 'anna sawai',
-          'Country code': 'PH',
-          Location: 'Japan',
-          Volume: 20000,
-          'Current position': 11,
-          'Organic traffic': 42,
-          KD: 24.0,
-          'Current URL': 'https://www.tokyoweekender.com/entertainment/movies-tv/10-fascinating-facts-about-shogun-star-anna-sawai/',
-          Informational: true,
-          Commercial: false,
-          Transactional: false,
-          Navigational: false,
-          Branded: false,
-          Local: false
-        },
-        {
-          Keyword: 'chiikawa',
-          'Country code': 'MY',
-          Location: 'Japan',
-          Volume: 16000,
-          'Current position': 27,
-          'Organic traffic': 0,
-          KD: 5.0,
-          'Current URL': 'https://www.tokyoweekender.com/entertainment/anime-and-manga/chiikawa-dark-themes-explained/',
-          Informational: true,
+          'Organic traffic': 540,
+          KD: 25,
+          'Current URL': 'https://www.tokyoweekender.com/restaurants',
+          Informational: false,
           Commercial: true,
           Transactional: false,
           Navigational: false,
-          Branded: true,
-          Local: false
+          Branded: false,
+          Local: true
         },
         {
-          Keyword: 'anna sawai',
-          'Country code': 'GB',
-          Location: 'Japan',
-          Volume: 16000,
-          'Current position': 12,
-          'Organic traffic': 79,
-          KD: 14.0,
-          'Current URL': 'https://www.tokyoweekender.com/entertainment/movies-tv/10-fascinating-facts-about-shogun-star-anna-sawai/',
-          Informational: true,
-          Commercial: false,
+          Keyword: 'tokyo nightlife',
+          'Country code': 'US',
+          Location: 'United States',
+          Volume: 6500,
+          'Current position': 15,
+          'Organic traffic': 195,
+          KD: 20,
+          'Current URL': 'https://www.tokyoweekender.com/nightlife',
+          Informational: false,
+          Commercial: true,
           Transactional: false,
           Navigational: false,
           Branded: false,
-          Local: false
+          Local: true
         },
         {
-          Keyword: 'bamboo forest kyoto',
-          'Country code': 'JP',
-          Location: 'Japan',
-          Volume: 13000,
-          'Current position': 45,
-          'Organic traffic': 0,
-          KD: 26.0,
-          'Current URL': 'https://www.tokyoweekender.com/travel/alternative-bamboo-forests-japan-arashiyama/',
+          Keyword: 'tokyo shopping',
+          'Country code': 'US',
+          Location: 'United States',
+          Volume: 5800,
+          'Current position': 18,
+          'Organic traffic': 174,
+          KD: 22,
+          'Current URL': 'https://www.tokyoweekender.com/shopping',
+          Informational: false,
+          Commercial: true,
+          Transactional: true,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        },
+        {
+          Keyword: 'tokyo cherry blossom',
+          'Country code': 'CA',
+          Location: 'Canada',
+          Volume: 12000,
+          'Current position': 4,
+          'Organic traffic': 850,
+          KD: 18,
+          'Current URL': 'https://www.tokyoweekender.com/seasonal/cherry-blossom/',
           Informational: true,
           Commercial: false,
           Transactional: false,
@@ -321,53 +289,229 @@ const getMockData = (endpoint: string): any => {
           Local: true
         },
         {
-          Keyword: 'tinder',
-          'Country code': 'LV',
-          Location: 'Japan',
-          Volume: 13000,
-          'Current position': 41,
-          'Organic traffic': 0,
-          KD: 73.0,
-          'Current URL': 'https://www.tokyoweekender.com/japan-life/things-to-do-in-tokyo/tinder-opens-breakup-shrine-in-tokyo/',
-          Informational: true,
-          Commercial: false,
-          Transactional: false,
+          Keyword: 'tokyo hotels',
+          'Country code': 'CA',
+          Location: 'Canada',
+          Volume: 9500,
+          'Current position': 8,
+          'Organic traffic': 420,
+          KD: 28,
+          'Current URL': 'https://www.tokyoweekender.com/accommodation/',
+          Informational: false,
+          Commercial: true,
+          Transactional: true,
           Navigational: false,
-          Branded: true,
-          Local: false
+          Branded: false,
+          Local: true
         },
         {
-          Keyword: 'toshiro mifune',
-          'Country code': 'US',
-          Location: 'Japan',
-          Volume: 13000,
-          'Current position': 12,
-          'Organic traffic': 0,
-          KD: 7.0,
-          'Current URL': 'https://www.tokyoweekender.com/art_and_culture/spotlight-toshiro-mifune/',
+          Keyword: 'tokyo metro',
+          'Country code': 'CA',
+          Location: 'Canada',
+          Volume: 7800,
+          'Current position': 6,
+          'Organic traffic': 380,
+          KD: 12,
+          'Current URL': 'https://www.tokyoweekender.com/transportation/metro/',
           Informational: true,
           Commercial: false,
           Transactional: false,
           Navigational: false,
           Branded: false,
-          Local: false
+          Local: true
         },
         {
-          Keyword: 'tw popstar',
-          'Country code': 'NG',
+          Keyword: 'tokyo events',
+          'Country code': 'AU',
+          Location: 'Australia',
+          Volume: 6800,
+          'Current position': 2,
+          'Organic traffic': 720,
+          KD: 16,
+          'Current URL': 'https://www.tokyoweekender.com/events',
+          Informational: true,
+          Commercial: false,
+          Transactional: false,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        },
+        {
+          Keyword: 'tokyo food',
+          'Country code': 'AU',
+          Location: 'Australia',
+          Volume: 5500,
+          'Current position': 9,
+          'Organic traffic': 280,
+          KD: 24,
+          'Current URL': 'https://www.tokyoweekender.com/food/',
+          Informational: false,
+          Commercial: true,
+          Transactional: false,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        },
+        {
+          Keyword: 'tokyo ramen',
+          'Country code': 'AU',
+          Location: 'Australia',
+          Volume: 4200,
+          'Current position': 12,
+          'Organic traffic': 180,
+          KD: 19,
+          'Current URL': 'https://www.tokyoweekender.com/food/ramen/',
+          Informational: false,
+          Commercial: true,
+          Transactional: false,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        },
+        {
+          Keyword: 'tokyo temples',
+          'Country code': 'GB',
+          Location: 'United Kingdom',
+          Volume: 3800,
+          'Current position': 7,
+          'Organic traffic': 220,
+          KD: 14,
+          'Current URL': 'https://www.tokyoweekender.com/culture/temples/',
+          Informational: true,
+          Commercial: false,
+          Transactional: false,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        },
+        {
+          Keyword: 'tokyo museums',
+          'Country code': 'GB',
+          Location: 'United Kingdom',
+          Volume: 3200,
+          'Current position': 11,
+          'Organic traffic': 150,
+          KD: 17,
+          'Current URL': 'https://www.tokyoweekender.com/culture/museums/',
+          Informational: true,
+          Commercial: false,
+          Transactional: false,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        },
+        {
+          Keyword: 'tokyo anime',
+          'Country code': 'GB',
+          Location: 'United Kingdom',
+          Volume: 2800,
+          'Current position': 14,
+          'Organic traffic': 120,
+          KD: 21,
+          'Current URL': 'https://www.tokyoweekender.com/entertainment/anime/',
+          Informational: true,
+          Commercial: false,
+          Transactional: false,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        },
+        {
+          Keyword: 'tokyo weather',
+          'Country code': 'JP',
+          Location: 'Japan',
+          Volume: 15000,
+          'Current position': 1,
+          'Organic traffic': 1200,
+          KD: 8,
+          'Current URL': 'https://www.tokyoweekender.com/weather/',
+          Informational: true,
+          Commercial: false,
+          Transactional: false,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        },
+        {
+          Keyword: 'tokyo station',
+          'Country code': 'JP',
           Location: 'Japan',
           Volume: 12000,
-          'Current position': 50,
-          'Organic traffic': 0,
-          KD: 3.0,
-          'Current URL': 'https://www.tokyoweekender.com/entertainment/music/atarashii-gakkou-celebrates-10-years/',
+          'Current position': 2,
+          'Organic traffic': 950,
+          KD: 10,
+          'Current URL': 'https://www.tokyoweekender.com/transportation/station/',
           Informational: true,
           Commercial: false,
           Transactional: false,
           Navigational: false,
           Branded: false,
-          Local: false
+          Local: true
         },
+        {
+          Keyword: 'tokyo airport',
+          'Country code': 'JP',
+          Location: 'Japan',
+          Volume: 9800,
+          'Current position': 3,
+          'Organic traffic': 780,
+          KD: 13,
+          'Current URL': 'https://www.tokyoweekender.com/transportation/airport/',
+          Informational: true,
+          Commercial: false,
+          Transactional: false,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        },
+        {
+          Keyword: 'tokyo sushi',
+          'Country code': 'JP',
+          Location: 'Japan',
+          Volume: 8500,
+          'Current position': 5,
+          'Organic traffic': 650,
+          KD: 20,
+          'Current URL': 'https://www.tokyoweekender.com/food/sushi/',
+          Informational: false,
+          Commercial: true,
+          Transactional: false,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        },
+        {
+          Keyword: 'tokyo bars',
+          'Country code': 'JP',
+          Location: 'Japan',
+          Volume: 7200,
+          'Current position': 8,
+          'Organic traffic': 420,
+          KD: 23,
+          'Current URL': 'https://www.tokyoweekender.com/nightlife/bars/',
+          Informational: false,
+          Commercial: true,
+          Transactional: false,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        },
+        {
+          Keyword: 'tokyo parks',
+          'Country code': 'JP',
+          Location: 'Japan',
+          Volume: 6500,
+          'Current position': 6,
+          'Organic traffic': 380,
+          KD: 15,
+          'Current URL': 'https://www.tokyoweekender.com/attractions/parks/',
+          Informational: true,
+          Commercial: false,
+          Transactional: false,
+          Navigational: false,
+          Branded: false,
+          Local: true
+        }
         {
           Keyword: 'omoide yokocho',
           'Country code': 'US',
@@ -785,7 +929,51 @@ const getMockData = (endpoint: string): any => {
 export const apiRequest = async (endpoint: string, _options?: RequestInit): Promise<Response> => {
   // Temporarily use mock data for all endpoints until backend is fixed
   console.log(`Using mock data for ${endpoint} (backend temporarily disabled)`)
-  const mockData = getMockData(endpoint)
+  
+  let mockData = getMockData(endpoint)
+  
+  // Apply dynamic filtering for search endpoint
+  if (endpoint.startsWith('/api/keywords/search')) {
+    const url = new URL(endpoint, 'http://localhost')
+    const minVolume = parseInt(url.searchParams.get('min_volume') || '100')
+    const maxPosition = parseInt(url.searchParams.get('max_position') || '50')
+    const intent = url.searchParams.get('intent') || ''
+    const location = url.searchParams.get('location') || ''
+    const limit = parseInt(url.searchParams.get('limit') || '100')
+    
+    console.log(`Applying filters: min_volume=${minVolume}, max_position=${maxPosition}, intent=${intent}, location=${location}, limit=${limit}`)
+    
+    // Filter the mock data
+    mockData = mockData.filter((item: any) => {
+      // Volume filter
+      if (item.Volume < minVolume) return false
+      
+      // Position filter
+      if (item['Current position'] > maxPosition) return false
+      
+      // Intent filter
+      if (intent && item[intent] !== true) return false
+      
+      // Location filter
+      if (location && item.Location !== location) return false
+      
+      return true
+    })
+    
+    // Sort by traffic and position
+    mockData.sort((a: any, b: any) => {
+      if (b['Organic traffic'] !== a['Organic traffic']) {
+        return b['Organic traffic'] - a['Organic traffic']
+      }
+      return a['Current position'] - b['Current position']
+    })
+    
+    // Apply limit
+    mockData = mockData.slice(0, limit)
+    
+    console.log(`Filtered results: ${mockData.length} items`)
+  }
+  
   console.log(`Mock data for ${endpoint}:`, mockData)
   
   // Simulate network delay for realistic behavior
