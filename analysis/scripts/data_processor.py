@@ -229,7 +229,7 @@ class KeywordDataProcessor:
 def main():
     """メイン処理"""
     # データファイルのパス
-    data_file = "data/raw/www.tokyoweekender.com-organic-keywords-sub_2025-09-26_06-05-37.csv"
+    data_file = "data/raw/www.tokyoweekender.com-organic-keywords-sub_2025-09-26_06-49-18.csv"
     output_file = "data/processed/tokyo_weekender_analysis.json"
     
     # データ処理の実行

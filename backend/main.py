@@ -151,7 +151,7 @@ async def get_keywords(
 ):
     """キーワードデータの取得（フィルタリング対応）"""
     try:
-        csv_file = RAW_DATA_PATH / "www.tokyoweekender.com-organic-keywords-sub_2025-09-26_06-05-37.csv"
+        csv_file = RAW_DATA_PATH / "www.tokyoweekender.com-organic-keywords-sub_2025-09-26_06-49-18.csv"
         
         if not csv_file.exists():
             raise HTTPException(status_code=404, detail="キーワードデータが見つかりません")
