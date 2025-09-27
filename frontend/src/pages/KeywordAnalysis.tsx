@@ -73,6 +73,7 @@ const KeywordAnalysis: React.FC = () => {
   const [locations, setLocations] = useState<Location[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [showFilters, setShowFilters] = useState(false)
 
   const handleSearch = useCallback(async () => {
     setLoading(true)
@@ -177,7 +178,10 @@ const KeywordAnalysis: React.FC = () => {
           </p>
         </div>
         <div className="flex space-x-3">
-          <button className="btn-secondary flex items-center space-x-2">
+          <button 
+            onClick={() => setShowFilters(!showFilters)}
+            className="btn-secondary flex items-center space-x-2"
+          >
             <Filter className="h-4 w-4" />
             <span>Filter</span>
           </button>
@@ -189,8 +193,9 @@ const KeywordAnalysis: React.FC = () => {
       </div>
 
       {/* フィルターセクション */}
-      <div className="card">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Filter Conditions</h3>
+      {showFilters && (
+        <div className="card">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Filter Conditions</h3>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -243,6 +248,10 @@ const KeywordAnalysis: React.FC = () => {
               onChange={(e) => {
                 console.log('Location changed to:', e.target.value)
                 setFilters({...filters, location: e.target.value})
+                // Auto-search when location changes
+                setTimeout(() => {
+                  handleSearch()
+                }, 100)
               }}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
@@ -278,7 +287,8 @@ const KeywordAnalysis: React.FC = () => {
             </button>
           </div>
         </div>
-      </div>
+        </div>
+      )}
 
       {/* Sort Controls */}
       <div className="card">
